@@ -27,7 +27,7 @@
 //del operador ->
 //Luego imprima de nuevo el valor de los miembros de la estructura pero esta vez haga uso de "type casting",
 //operadores y aritmetica de punteros
-//Calcule el tamaño de cada estructura con la funcion sizeof() y explique en un comentario sus observaciones
+//Calcule el tamaC1o de cada estructura con la funcion sizeof() y explique en un comentario sus observaciones
 //acerca del resultado obtenido respecto a los tamanios de las estructuras
 
 /*3.Agregue a la funcion foo_function() un arreglo unidimensional del tipo y del tamanio que ud prefiera.
@@ -35,8 +35,17 @@
  * se haga un llamado a la funcion foo_function() dentro de la funcion main se imprima un elemento del arreglo
  * (en el orden que estan en el arreglo) con ayuda de la aritmetica de punteros.
  */
+
+/* Enlaces de internet utiles:
+ * http://c.conclase.net/curso/index.php?cap=011
+ * http://c.conclase.net/curso/index.php?cap=011b#STR_sizeof
+ * https://stackoverflow.com/questions/8657776/pointer-arithmetic-with-structures
+ * https://stackoverflow.com/questions/119123/why-isnt-sizeof-for-a-struct-equal-to-the-sum-of-sizeof-of-each-member
+ * http://www.catb.org/esr/structure-packing/
+ * https://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/
+ */
  
- /*4. Diseñe una estructura de datos tipo memoria FIFO (First In First Out). La estructura FIFO es una pila de datos
+  /*4. Diseñe una estructura de datos tipo memoria FIFO (First In First Out). La estructura FIFO es una pila de datos
      * cuya utilidad es poder reutilizar constantemente un bloque de memoria de un tamaño arbitrario. La pila FIFO permite
      * que la lectura de los datos sea de forma que el dato que se lee en un instante dado es el primero que ha sido ingresado
      * previamente en la pila. Ejm: Se ingresan los siguientes datos en ese estricto orden A, B, C, D. Al ejecutar una lectura
@@ -73,56 +82,165 @@
      *     lectura exitosa.
 	*/
 
-/* Enlaces de internet utiles:
- * http://c.conclase.net/curso/index.php?cap=011
- * http://c.conclase.net/curso/index.php?cap=011b#STR_sizeof
- * https://stackoverflow.com/questions/8657776/pointer-arithmetic-with-structures
- * https://stackoverflow.com/questions/119123/why-isnt-sizeof-for-a-struct-equal-to-the-sum-of-sizeof-of-each-member
- * http://www.catb.org/esr/structure-packing/
- * https://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/
- */
 
+    //punto 2
+
+struct estructur_1
+
+{
+    int var1 = 0;
+    char var2 = 'v';
+    float var3 = 1.2;
+    char var4 = 'x';
+    double var5 = 2.22;
+    int var6 = 3;
+    
+}varstruct1;
+
+struct estructur_2
+{
+    int var1 = 0;
+    int var2= 1;    
+    float var3= 2.1;
+    char var4= 'y';
+    char var5= 'z';
+    double var6= 3.22;
+    
+}varstruct2;
+
+void Init_Fifo (void);
+void Escribe_Fifo (void);
+void Lee_Fifo(void);
 void foo_function(void); //Esta declaracion dejela tal y como esta
-void Init_Fifo(void); //Esta declaracion dejela tal y como esta
-void Escribe_Fifo(void); //Esta declaracion dejela tal y como esta
-void Lee_Fifo(void); //Esta declaracion dejela tal y como esta
+
+int i=0;
+int FIFO[20]; 
+int rdate;
+int wdate;
+int *ptrW = nullptr;
+int *ptrR = nullptr;
 
 int main()
 {
 	
-	//Agregue su codigo aqui
-    
+	//punto 1
+	
+	char *my_string = "lenguajes de programacion";
+	std::cout<<"mi cadena de caracteres es:" << my_string <<std::endl;
+	
+	
+	//continuacion del punto 2----declaracion de punteros a cada estructura
+	
+	estructur_1 *ptr1=&varstruct1;
+	
+	std::cout<<"Valor del miembro uno es:" << ptr1->var1<<"\n"; 
+	std::cout<<"Valor del miembro dos es:" << ptr1->var2<<"\n";
+	std::cout<<"Valor del miembro tres es:" << ptr1->var3<<"\n";
+	std::cout<<"Valor del miembro cuatro es:" << ptr1->var4<<"\n";
+	std::cout<<"Valor del miembro cinco es:" << ptr1->var5<<"\n";
+	std::cout<<"Valor del miembro seis es:" << ptr1->var6<<"\n"<<"\n";
+	
+	
+		estructur_2 *ptr2=&varstruct2;
+	
+	std::cout<<"Valor del miembro uno es:" << ptr2->var1<<"\n"; 
+	std::cout<<"Valor del miembro dos es:" << ptr2->var2<<"\n";
+	std::cout<<"Valor del miembro tres es:" << ptr2->var3<<"\n";
+	std::cout<<"Valor del miembro cuatro es:" << ptr2->var4<<"\n";
+	std::cout<<"Valor del miembro cinco es:" << ptr2->var5<<"\n";
+	std::cout<<"Valor del miembro seis es:" << ptr2->var6<<"\n"<<"\n";
+	
+	
+    //type casting 
+	
+	std::cout<<"Valor del miembro uno es:" << *((int*)ptr1)<<"\n"; 
+	std::cout<<"Valor del miembro dos es:" << *((char*)ptr1+4)<<"\n";
+	std::cout<<"Valor del miembro tres es:" << *((float*)ptr1+2)<<"\n";
+	std::cout<<"Valor del miembro cuatro es:" << *((char*)ptr1+12)<<"\n";
+	std::cout<<"Valor del miembro cinco es:" << *((double*)ptr1+2)<<"\n";
+	std::cout<<"Valor del miembro seis es:" << *((int*)ptr1+6)<<"\n"<<"\n";
+	
+	
+	std::cout<<"Valor del miembro uno es:" << *((int*)ptr2)<<"\n"; 
+	std::cout<<"Valor del miembro dos es:" << *((int*)ptr2+1)<<"\n";
+	std::cout<<"Valor del miembro tres es:" << *((float*)ptr2+2)<<"\n";
+	std::cout<<"Valor del miembro cuatro es:" << *((char*)ptr2+12)<<"\n";
+	std::cout<<"Valor del miembro cinco es:" << *((char*)ptr2+13)<<"\n";
+	std::cout<<"Valor del miembro seis es:" << *((double*)ptr2+2)<<"\n";
+	
+	//tamaños de las estructuras; el resultado es debido a que se coge el tipo de 
+	//variable con mayor bits, y es en esto en el tamaño de bloques en que la memoria se va a partir.
+	
+	std::cout<<"El tamano de la estructura 1 es: "<<sizeof(estructur_1)<<"\n"<<"\n";
+	std::cout<<"El tamano de la estructura 1 es: "<<sizeof(estructur_2)<<"\n"<<"\n";
+	
 
-    //Aqui puede agregar mas llamadas a function1.....
+
+
+	
+	
+	
+	 //Aqui puede agregar mas llamadas a function1.....
     foo_function();
-	
-	//Aqui puede realizar escrituras y lecturas de su FIFO...
-	Init_Fifo();
-	//Escribe_Fifo();
-	//Lee_Fifo();
-	
+    foo_function();
+    foo_function();
+    
+    Init_Fifo(); 
+    
+    
+    
     return 0;
 }
 
+
 void foo_function(void)
 {
-	//Su codigo aqui
-    std::cout<<<<std::endl;
-    //Su codigo aqui tambien si quiere
+	int array[]={1,2,3};
+    int *ptr3 = array;
+    
+
+    std::cout <<"Puntero vector :"<<*(ptr3+i)<< std::endl;
+    std::cout <<"Vector :"<< array[i] << std::endl;
+    i=i+1;
+    if (i==3)
+    {
+      i=0;
+    }
 }
 
 void Init_Fifo(void)
 {
-    //Aqui va la incializacion de los punteros
+
+    ptrR = &FIFO[0];
+    ptrW = &FIFO[0];
+    
 }
 
 void Escribe_Fifo(void)
 {
-    //Aqui agregue la logica para la escritura de la FIFO
+ if (ptrW+1==ptrR  || ptrW-ptrR== 19)
+      std::cout << "La memoria esta llena " << std::endl;
+  else
 
+          *ptrW=wdate;
+          if (ptrW==&FIFO[19])
+          ptrW=&FIFO[0];
+          else
+          ptrW++;
+          std::cout << "escritura exitosa" << std::endl;
 }
 
-void Lee_Fifo(void)
+void Lee_Fifo (void)
 {
-    //Aqui agregue la logica para la lectura de la FIFO
+  if (ptrW == ptrR)
+  std::cout << "La memoria esta vacia" << std::endl;
+  else{
+  rdate=*ptrR;
+    if (ptrR==&FIFO[19])
+  ptrR=&FIFO[0];
+    else
+  ptrR++;
+  std::cout << "Lectura Exitosa " << std::endl;
+  }
+   
 }
